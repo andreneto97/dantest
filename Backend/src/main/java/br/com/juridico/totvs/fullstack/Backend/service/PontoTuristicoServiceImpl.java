@@ -4,6 +4,7 @@ import br.com.juridico.totvs.fullstack.Backend.domain.PontoTuristico;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.ComentarioDTO;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoCreateUpdateDTO;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,9 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class PontoTuristicoServiceImpl implements PontoTuristicoService {
+    private final ComentarioService comentarioService;
     List<PontoTuristico> listPontoTuristico = null;
 
-    PontoTuristicoServiceImpl(){
+    @Autowired
+    PontoTuristicoServiceImpl(ComentarioService comentarioService){
+        this.comentarioService = comentarioService;
         this.listPontoTuristico = new ArrayList<>();
         this.listPontoTuristico.add(new PontoTuristico(1L,
                 "Cristo Redentor",
@@ -72,7 +76,6 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        ComentarioService comentarioService = new ComentarioServiceImpl();
         List<ComentarioDTO> comentarios = comentarioService.getComentarioByPontoTuristico(id);
 
         return new PontoTuristicoDTO(pontoTuristico, comentarios);
@@ -80,7 +83,6 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
 
     @Override
     public List<PontoTuristicoDTO> getPontoTuristicoByPais(Long paisId) {
-        ComentarioService comentarioService = new ComentarioServiceImpl();
 
         return this.listPontoTuristico.stream()
                 .filter(x -> x.getPaisId().equals(paisId))

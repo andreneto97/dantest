@@ -42,8 +42,17 @@ const routes: Routes = [
         component: PontosTuristicosComponent,
       },
       {
+        path: 'cadastro/:idPontoTuristico/comentario/:idComentario',
+        component: CadastroComentarioComponent,
+        data: { tipoCadastroComentario: 'view' }
+      },
+      {
+        path: 'cadastro/:idPontoTuristico/comentario',
+        component: CadastroComentarioComponent,
+        data: { tipoCadastroComentario: 'view' }
+      },
+      {
         path: 'cadastro',
-        pathMatch: 'full',
         children:[
           {
             path: '',
@@ -55,27 +64,10 @@ const routes: Routes = [
             path: ':idPontoTuristico',
             component: CadastroPontosTuristicosComponent,
             data: { tipoCadastroPontoTuristico: 'view' },
-            children: [
-              {
-                path: 'comentario',
-                children: [
-                  {
-                    path: '',
-                    pathMatch: 'full',
-                    component: CadastroComentarioComponent,
-                    data: { tipoCadastroComentario: 'new' }
-                  },
-                  {
-                    path: ':idComentario',
-                    component: CadastroComentarioComponent,
-                    data: { tipoCadastroComentario: 'view' }
-                  }
-                ]
-              }
-            ]
           }
         ]
-      }
+      },
+      
     ]
   },
   {
@@ -85,7 +77,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

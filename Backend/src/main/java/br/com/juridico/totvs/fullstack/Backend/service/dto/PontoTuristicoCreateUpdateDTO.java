@@ -22,7 +22,7 @@ public class PontoTuristicoCreateUpdateDTO {
         return cidade;
     }
 
-    public void setCidade(String sigla) {
+    public void setCidade(String cidade) {
         this.cidade = cidade;
     }
 

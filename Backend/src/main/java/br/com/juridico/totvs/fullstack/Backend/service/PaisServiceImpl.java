@@ -7,6 +7,7 @@ import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,9 +16,12 @@ import java.util.stream.IntStream;
 
 @Service
 public class PaisServiceImpl implements PaisService {
+    private final PontoTuristicoService pontoTuristicoService;
     List<Pais> listPais = null;
 
-    PaisServiceImpl(){
+    @Autowired
+    PaisServiceImpl(PontoTuristicoService pontoTuristicoService){
+        this.pontoTuristicoService = pontoTuristicoService;
         this.listPais = new ArrayList<>();
         this.listPais.add(new Pais(1L,
                 "Brasil",
@@ -70,7 +74,6 @@ public class PaisServiceImpl implements PaisService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        PontoTuristicoService pontoTuristicoService = new PontoTuristicoServiceImpl();
         List<PontoTuristicoDTO> pontosTuristicos = pontoTuristicoService.getPontoTuristicoByPais(id);
 
         return new PaisDTO(pais, pontosTuristicos);
@@ -86,7 +89,6 @@ public class PaisServiceImpl implements PaisService {
 
     @Override
     public List<PaisDTO> getAllPais() {
-        PontoTuristicoService pontoTuristicoService = new PontoTuristicoServiceImpl();
         return this.listPais.stream()
                 .map(pais -> {
                     List<PontoTuristicoDTO> pontosTuristicos = pontoTuristicoService.getPontoTuristicoByPais(pais.getId());

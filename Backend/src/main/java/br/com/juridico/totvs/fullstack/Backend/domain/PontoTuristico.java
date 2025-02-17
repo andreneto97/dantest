@@ -46,7 +46,7 @@ public class PontoTuristico {
         return melhorEstacao;
     }
 
-    public void setMelhorEstacao(String sigla) {
+    public void setMelhorEstacao(String melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
 
